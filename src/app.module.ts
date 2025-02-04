@@ -5,6 +5,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './users/entities/user.entity';
 import { EngineModule } from './engine/engine.module';
 import { Engine } from './engine/entities/engine.entity';
+import { QueriesModule } from './queries/queries.module';
+import { Query } from './queries/entities/query.entity';
+import { RequestsModule } from './requests/requests.module';
 
 @Module({
   imports: [
@@ -18,10 +21,12 @@ import { Engine } from './engine/entities/engine.entity';
       database: process.env.DB_NAME,
       autoLoadEntities: true,
       synchronize: true,
-      entities: [User, Engine],
+      entities: [User, Engine, Query],
     }),
     UsersModule,
     EngineModule,
+    QueriesModule,
+    RequestsModule,
   ],
   controllers: [],
   providers: [],

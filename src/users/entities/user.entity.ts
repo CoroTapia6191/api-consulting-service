@@ -15,6 +15,12 @@ export class User {
   isActive: boolean;
   @Column({ type: 'enum', enum: Role, default: Role.GUEST })
   role: Role;
+  @Column({ nullable: true })
+  ip: string;
+  @Column({ nullable: true })
+  proxy: string;
+  @Column({ nullable: false })
+  token: string;
   @Column({ nullable: false })
   createdAt: Date;
   @Column({
