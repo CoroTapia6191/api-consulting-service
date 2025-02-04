@@ -26,6 +26,7 @@
 
 I´m starting a back-end project on NestJs to be usend in my front-end Apps. When I finish my first version you gonna have more details
 
+Tested with node v22.1.0
 ## Project setup
 
 ```bash
