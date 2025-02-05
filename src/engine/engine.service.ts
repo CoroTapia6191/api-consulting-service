@@ -18,7 +18,8 @@ export class EngineService {
   }
 
   findAll(): Promise<Engine[]> {
-    return this.engineRepository.find();
+    //only actives
+    return this.engineRepository.findBy({ isActive: true });
   }
 
   findOne(id: number): Promise<Engine | null> {

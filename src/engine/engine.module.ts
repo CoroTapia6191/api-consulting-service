@@ -8,5 +8,6 @@ import { Engine } from './entities/engine.entity';
   imports: [TypeOrmModule.forFeature([Engine])],
   controllers: [EngineController],
   providers: [EngineService],
+  exports: [EngineService],
 })
 export class EngineModule {}

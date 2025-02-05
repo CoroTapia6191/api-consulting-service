@@ -12,6 +12,8 @@ export class Engine {
   urls: string[];
   @Column({ type: 'simple-array', nullable: true })
   headers: string[];
+  @Column()
+  body: string;
   @Column({ default: true })
   isActive: boolean;
   @Column({ nullable: false })

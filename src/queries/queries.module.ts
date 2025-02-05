@@ -8,5 +8,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
   imports: [TypeOrmModule.forFeature([Query])],
   controllers: [QueriesController],
   providers: [QueriesService],
+  exports: [QueriesService],
 })
 export class QueriesModule {}
