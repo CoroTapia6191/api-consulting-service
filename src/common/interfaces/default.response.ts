@@ -1,5 +1,5 @@
 export interface DefaultResponse {
-  code: number;
+  statusCode: number;
   message: string;
   data: any;
 }

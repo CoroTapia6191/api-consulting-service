@@ -1,4 +1,3 @@
-import { DefaultResponse } from './../common/default.response';
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { CreateRequestDto } from './dto/create-request.dto';
 import { HttpService } from '@nestjs/axios';
@@ -10,6 +9,7 @@ import { GeminiResponse } from './interfaces/gemini.interface';
 import axios, { AxiosResponse } from 'axios';
 import { DecoderService } from './decoder/decoder.service';
 import { ChatgptResponse } from './interfaces/chatgpt.interfac';
+import { DefaultResponse } from 'src/common/interfaces/default.response';
 
 @Injectable()
 export class RequestsService {
@@ -49,7 +49,7 @@ export class RequestsService {
             response.data,
           );
           return {
-            code: 200,
+            statusCode: 200,
             message: 'Request created successfully',
             // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             data: dataJson,

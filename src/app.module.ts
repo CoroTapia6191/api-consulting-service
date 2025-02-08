@@ -8,6 +8,7 @@ import { Engine } from './engine/entities/engine.entity';
 import { QueriesModule } from './queries/queries.module';
 import { Query } from './queries/entities/query.entity';
 import { RequestsModule } from './requests/requests.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { RequestsModule } from './requests/requests.module';
     EngineModule,
     QueriesModule,
     RequestsModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],

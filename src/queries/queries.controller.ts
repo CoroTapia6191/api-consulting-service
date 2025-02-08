@@ -10,7 +10,10 @@ import {
 import { QueriesService } from './queries.service';
 import { CreateQueryDto } from './dto/create-query.dto';
 import { UpdateQueryDto } from './dto/update-query.dto';
+import { Roles } from 'src/common/decorators/role-service.decorator';
+import { Role } from 'src/users/entities/role.enum';
 
+@Roles(Role.ADMIN)
 @Controller('queries')
 export class QueriesController {
   constructor(private readonly queriesService: QueriesService) {}

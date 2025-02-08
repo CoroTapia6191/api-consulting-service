@@ -1,4 +1,10 @@
-import { IsArray, IsDefined, IsNotEmpty, IsString } from 'class-validator';
+import {
+  IsArray,
+  IsDefined,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export class CreateEngineDto {
   @IsNotEmpty()
@@ -11,5 +17,6 @@ export class CreateEngineDto {
   @IsArray()
   headers: string[];
   @IsString()
+  @IsOptional()
   body: string;
 }

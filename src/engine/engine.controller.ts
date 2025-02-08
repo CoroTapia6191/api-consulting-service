@@ -10,7 +10,10 @@ import {
 import { EngineService } from './engine.service';
 import { CreateEngineDto } from './dto/create-engine.dto';
 import { UpdateEngineDto } from './dto/update-engine.dto';
+import { Role } from 'src/users/entities/role.enum';
+import { Roles } from 'src/common/decorators/role-service.decorator';
 
+@Roles(Role.ADMIN)
 @Controller('engine')
 export class EngineController {
   constructor(private readonly engineService: EngineService) {}

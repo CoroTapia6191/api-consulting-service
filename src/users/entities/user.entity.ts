@@ -7,14 +7,14 @@ export class User {
   id: number;
   @Column({ unique: true, nullable: false })
   email: string;
-  @Column({ nullable: true })
+  @Column({ unique: true, nullable: false })
   username: string;
   @Column({ nullable: false })
   password: string;
   @Column({ default: true })
   isActive: boolean;
-  @Column({ type: 'enum', enum: Role, default: Role.GUEST })
-  role: Role;
+  @Column({ type: 'simple-array', nullable: false })
+  roles: Role[];
   @Column({ nullable: true })
   ip: string;
   @Column({ nullable: true })

@@ -4,7 +4,7 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 export class Engine {
   @PrimaryGeneratedColumn()
   id: number;
-  @Column({ nullable: false })
+  @Column({ nullable: false, unique: true })
   name: string;
   @Column({ type: 'simple-array', nullable: true })
   apiKeys: string[];
