@@ -9,10 +9,17 @@ import { QueriesModule } from './queries/queries.module';
 import { Query } from './queries/entities/query.entity';
 import { RequestsModule } from './requests/requests.module';
 import { AuthModule } from './auth/auth.module';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
+    ThrottlerModule.forRoot([
+      {
+        ttl: 60000,
+        limit: 10,
+      },
+    ]),
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: process.env.DB_HOST,
@@ -31,6 +38,6 @@ import { AuthModule } from './auth/auth.module';
     AuthModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [{ provide: 'APP_GUARD', useClass: ThrottlerGuard }],
 })
 export class AppModule {}
