@@ -1,4 +1,4 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, HttpCode } from '@nestjs/common';
 import { RequestsService } from './requests.service';
 import { CreateRequestDto } from './dto/create-request.dto';
 import { Roles } from 'src/common/decorators/role-service.decorator';
@@ -10,6 +10,7 @@ export class RequestsController {
   constructor(private readonly requestsService: RequestsService) {}
 
   @Post()
+  @HttpCode(200)
   createRequestList(@Body() createRequestDto: CreateRequestDto) {
     return this.requestsService.create(createRequestDto);
   }
