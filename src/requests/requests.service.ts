@@ -23,6 +23,7 @@ export class RequestsService {
     try {
       const iaQuery: Query | null = await this.queriesService.findOne(1); // query lists id
       const finalQuery: string | undefined = iaQuery?.baseQuery
+        .replace('${namedata}', createRequestDto.nameOfCollection)
         .replace('${numberItems}', createRequestDto.numberItems.toString())
         .replace('${listDetails}', createRequestDto.detailOfItems)
         .replace('${itemAtrt}', createRequestDto.fieldsOfItem.join(', '));
