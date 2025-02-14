@@ -1,10 +1,11 @@
 import { QueryType } from 'src/common/enum/query-type.enum';
-import { Query } from 'src/queries/entities/query.entity';
-import { User } from 'src/users/entities/user.entity';
-import { Column, Entity, OneToOne } from 'typeorm';
+
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Request {
+  @PrimaryGeneratedColumn()
+  id: number;
   @Column({
     type: 'enum',
     enum: QueryType,
@@ -14,11 +15,11 @@ export class Request {
   type: QueryType;
   @Column({ nullable: false })
   numberItems: number;
-  @OneToOne(() => User)
-  user: User;
-  @OneToOne(() => Query)
-  query: Query;
   @Column({ nullable: false })
+  user: number;
+  @Column({ nullable: false })
+  query: number;
+  @Column()
   details: string;
   @Column({ nullable: false })
   response: string;

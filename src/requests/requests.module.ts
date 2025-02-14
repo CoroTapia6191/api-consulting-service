@@ -5,9 +5,16 @@ import { HttpModule } from '@nestjs/axios';
 import { QueriesModule } from 'src/queries/queries.module';
 import { EngineModule } from 'src/engine/engine.module';
 import { DecoderService } from './decoder/decoder.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Request } from './entities/request.entity';
 
 @Module({
-  imports: [HttpModule, QueriesModule, EngineModule],
+  imports: [
+    HttpModule,
+    QueriesModule,
+    EngineModule,
+    TypeOrmModule.forFeature([Request]),
+  ],
   controllers: [RequestsController],
   providers: [RequestsService, DecoderService],
 })
