@@ -23,4 +23,11 @@ export class Request {
   details: string;
   @Column({ nullable: false })
   response: string;
+  @Column({ nullable: false })
+  createdAt: Date;
+  @Column({
+    type: 'timestamp',
+    onUpdate: 'CURRENT_TIMESTAMP',
+  })
+  updatedAt: Date;
 }

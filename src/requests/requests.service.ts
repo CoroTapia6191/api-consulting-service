@@ -70,6 +70,7 @@ export class RequestsService {
             query: iaQuery.id,
             details: finalQuery,
             response: JSON.stringify(response.data),
+            createdAt: new Date(),
           });
 
           console.log('Request created', requestDb.id);
