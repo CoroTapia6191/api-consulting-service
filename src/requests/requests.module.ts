@@ -7,13 +7,14 @@ import { EngineModule } from 'src/engine/engine.module';
 import { DecoderService } from './decoder/decoder.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Request } from './entities/request.entity';
+import { RequestUser } from './entities/request-user';
 
 @Module({
   imports: [
     HttpModule,
     QueriesModule,
     EngineModule,
-    TypeOrmModule.forFeature([Request]),
+    TypeOrmModule.forFeature([Request, RequestUser]),
   ],
   controllers: [RequestsController],
   providers: [RequestsService, DecoderService],

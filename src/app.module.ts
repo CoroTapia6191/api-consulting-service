@@ -11,6 +11,7 @@ import { RequestsModule } from './requests/requests.module';
 import { AuthModule } from './auth/auth.module';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { Request } from './requests/entities/request.entity';
+import { RequestUser } from './requests/entities/request-user';
 
 @Module({
   imports: [
@@ -30,14 +31,13 @@ import { Request } from './requests/entities/request.entity';
       database: process.env.DB_NAME,
       autoLoadEntities: true,
       synchronize: true,
-      entities: [User, Engine, Query, Request],
+      entities: [User, Engine, Query, Request, RequestUser],
     }),
     UsersModule,
     EngineModule,
     QueriesModule,
     RequestsModule,
     AuthModule,
-    RequestsModule,
   ],
   controllers: [],
   providers: [{ provide: 'APP_GUARD', useClass: ThrottlerGuard }],

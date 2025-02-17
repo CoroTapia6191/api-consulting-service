@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Logger,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -16,6 +17,7 @@ import { Public } from 'src/common/decorators/public-service.decorator';
 @Roles(Role.ADMIN)
 @Controller('users')
 export class UsersController {
+  private readonly logger = new Logger('RequestsService');
   constructor(private readonly usersService: UsersService) {}
 
   @Public()
@@ -43,7 +45,7 @@ export class UsersController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    console.log(`Intento borrar ${id}`);
+    this.logger.warn(`Intento borrar ${id}`);
     // return this.usersService.remove(+id);
   }
 }

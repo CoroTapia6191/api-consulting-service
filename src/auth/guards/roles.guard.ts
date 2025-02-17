@@ -1,9 +1,15 @@
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
+import {
+  CanActivate,
+  ExecutionContext,
+  Injectable,
+  Logger,
+} from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Role } from 'src/users/entities/role.enum';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
+  private readonly logger = new Logger('RolesGuard');
   constructor(private reflector: Reflector) {}
 
   canActivate(context: ExecutionContext): boolean {
@@ -25,7 +31,7 @@ export class RolesGuard implements CanActivate {
     }
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const { user } = context.switchToHttp().getRequest();
-    console.log(context.switchToHttp().getRequest());
+    this.logger.log(`User: ${user}`);
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
     return requiredRoles.some((role) => user.roles?.includes(role));

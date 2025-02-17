@@ -1,4 +1,8 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+} from '@nestjs/common';
 import { CreateRequestDto } from './dto/create-request.dto';
 import { QueriesService } from 'src/queries/queries.service';
 import { Query } from 'src/queries/entities/query.entity';
@@ -14,15 +18,19 @@ import { Repository } from 'typeorm';
 import { Request } from './entities/request.entity';
 import { User } from 'src/users/entities/user.entity';
 import { QueryType } from 'src/common/enum/query-type.enum';
+import { RequestUser } from './entities/request-user';
 
 @Injectable()
 export class RequestsService {
+  private readonly logger = new Logger('RequestsService');
   constructor(
     private queriesService: QueriesService,
     private engineService: EngineService,
     private decoderService: DecoderService,
     @InjectRepository(Request)
     private requestRepository: Repository<Request>,
+    @InjectRepository(RequestUser)
+    private requestUserRepository: Repository<RequestUser>,
   ) {}
   async create(
     createRequestDto: CreateRequestDto,
@@ -50,7 +58,7 @@ export class RequestsService {
             headers[header.split(':')[0].trim()] = header.split(':')[1].trim();
           });
           const message = provider.body.replace('${message}', finalQuery || '');
-          console.log(message);
+          this.logger.log(message);
           const response: AxiosResponse<GeminiResponse | ChatgptResponse, any> =
             await axios.post<GeminiResponse>(
               provider.urls[0],
@@ -58,7 +66,22 @@ export class RequestsService {
               { headers },
             );
           if (response.status == 200) {
-            console.log('Respuesta ok--- decoding--');
+            this.logger.log('Respuesta ok--- decoding--');
+            const requestUser: RequestUser | null =
+              await this.requestUserRepository.findOneBy({
+                user: user.id,
+              });
+            if (requestUser) {
+              const numberRequests = requestUser.numberRequests + 1;
+              await this.requestUserRepository.update(requestUser.user, {
+                numberRequests: numberRequests,
+              });
+            } else {
+              await this.requestUserRepository.save({
+                user: user.id,
+                numberRequests: 1,
+              });
+            }
             // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             const dataJson: any = this.decoderService.decodeEngineResponse(
               response.data,
@@ -75,7 +98,7 @@ export class RequestsService {
               provider: provider.id,
             });
 
-            console.log('Request created', requestDb.id);
+            this.logger.log('Request created', requestDb.id);
             return {
               statusCode: 200,
               message: 'Request created successfully',
@@ -84,12 +107,12 @@ export class RequestsService {
             };
           }
         } catch (error) {
-          console.log('error-providers', error);
+          this.logger.error('error-providers', error);
         }
       }
-      console.log('termino');
+      this.logger.log('termino proceso');
     } catch (error) {
-      console.log(error);
+      this.logger.error('error-providers', error);
       throw new InternalServerErrorException(error);
     }
     throw new InternalServerErrorException(
