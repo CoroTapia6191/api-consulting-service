@@ -19,6 +19,8 @@ export class Request {
   user: number;
   @Column({ nullable: false })
   query: number;
+  @Column({ nullable: false })
+  provider: number;
   @Column()
   details: string;
   @Column({ nullable: false })

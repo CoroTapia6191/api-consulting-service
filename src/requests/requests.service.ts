@@ -43,43 +43,48 @@ export class RequestsService {
 
       const iaProviders: Engine[] = await this.engineService.findAll();
       for (let index = 0; index < iaProviders.length; index++) {
-        const provider = iaProviders[index];
-        const headers = {};
-        provider.headers.forEach((header) => {
-          headers[header.split(':')[0].trim()] = header.split(':')[1].trim();
-        });
-        const message = provider.body.replace('${message}', finalQuery || '');
-        console.log(message);
-        const response: AxiosResponse<GeminiResponse | ChatgptResponse, any> =
-          await axios.post<GeminiResponse>(
-            provider.urls[0],
-            JSON.parse(message),
-            { headers },
-          );
-        if (response.status == 200) {
-          console.log('Respuesta ok--- decoding--');
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-          const dataJson: any = this.decoderService.decodeEngineResponse(
-            response.data,
-          );
-
-          const requestDb = await this.requestRepository.save({
-            type: QueryType.LIST,
-            numberItems: createRequestDto.numberItems,
-            user: user.id,
-            query: iaQuery.id,
-            details: finalQuery,
-            response: JSON.stringify(response.data),
-            createdAt: new Date(),
+        try {
+          const provider = iaProviders[index];
+          const headers = {};
+          provider.headers.forEach((header) => {
+            headers[header.split(':')[0].trim()] = header.split(':')[1].trim();
           });
-
-          console.log('Request created', requestDb.id);
-          return {
-            statusCode: 200,
-            message: 'Request created successfully',
+          const message = provider.body.replace('${message}', finalQuery || '');
+          console.log(message);
+          const response: AxiosResponse<GeminiResponse | ChatgptResponse, any> =
+            await axios.post<GeminiResponse>(
+              provider.urls[0],
+              JSON.parse(message),
+              { headers },
+            );
+          if (response.status == 200) {
+            console.log('Respuesta ok--- decoding--');
             // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-            data: dataJson,
-          };
+            const dataJson: any = this.decoderService.decodeEngineResponse(
+              response.data,
+            );
+
+            const requestDb = await this.requestRepository.save({
+              type: QueryType.LIST,
+              numberItems: createRequestDto.numberItems,
+              user: user.id,
+              query: iaQuery.id,
+              details: finalQuery,
+              response: JSON.stringify(response.data),
+              createdAt: new Date(),
+              provider: provider.id,
+            });
+
+            console.log('Request created', requestDb.id);
+            return {
+              statusCode: 200,
+              message: 'Request created successfully',
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+              data: dataJson,
+            };
+          }
+        } catch (error) {
+          console.log('error-providers', error);
         }
       }
       console.log('termino');
