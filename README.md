@@ -24,16 +24,11 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 ## Demo
-There is an integration with  <a href="https://corox.click/cxradio/">cxradio.corox.click</a> site, which allows the site to display a 6 elements list of Trending videos in Youtube music in Spanish.
+There is an integration with  <a href="https://corox.click/cxradio/">cxradio.corox.click</a> site, which allows the site to display a 6 elements list of Trending videos in Youtube Spanish to recomend their users.
 <img src="https://firebasestorage.googleapis.com/v0/b/corox-radios.appspot.com/o/screenview.png?alt=media"/>
+<br>
+The following section details the objects and how you can test this from a postman client.
 
-Request:  
-
-<img src ="https://firebasestorage.googleapis.com/v0/b/corox-radios.appspot.com/o/request.png?alt=media"/>
-
-Response:  
-
-<img src ="https://firebasestorage.googleapis.com/v0/b/corox-radios.appspot.com/o/Response.png?alt=media"/>
 
 
 ## Generate a Guest User
