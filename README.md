@@ -27,10 +27,12 @@ $ npm run start:prod
 There is an integration with  <a href="https://corox.click/cxradio/">cxradio.corox.click</a> site, which allows the site to display a 6 elements list of Trending videos in Youtube music in Spanish.
 <img src="https://firebasestorage.googleapis.com/v0/b/corox-radios.appspot.com/o/screenview.png?alt=media"/>
 
-Request: 
+Request:  
+
 <img src ="https://firebasestorage.googleapis.com/v0/b/corox-radios.appspot.com/o/request.png?alt=media"/>
 
-Response: 
+Response:  
+ 
 <img src ="https://firebasestorage.googleapis.com/v0/b/corox-radios.appspot.com/o/Response.png?alt=media"/>
 
 ## Acknowledgements
