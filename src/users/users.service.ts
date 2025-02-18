@@ -1,4 +1,4 @@
-import { Body, Injectable } from '@nestjs/common';
+import { Body, Injectable, Logger } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -6,25 +6,31 @@ import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import { PasswordService } from 'src/users/security/password.service';
 import { Role } from './entities/role.enum';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class UsersService {
+  private readonly logger = new Logger('UsersService');
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
     private passwordService: PasswordService,
+    private jwtService: JwtService,
   ) {}
   async create(@Body() createUserDto: CreateUserDto) {
-    return this.usersRepository.save([
-      {
-        ...createUserDto,
-        createdAt: new Date(),
-        roles: [Role.GUEST],
-        password: await this.passwordService.hashPassword(
-          createUserDto.password,
-        ),
-      },
-    ]);
+    const userCreated = await this.usersRepository.save({
+      ...createUserDto,
+      createdAt: new Date(),
+      roles: [Role.GUEST],
+      password: await this.passwordService.hashPassword(createUserDto.password),
+    });
+
+    const payload = { username: userCreated.username, sub: userCreated.id };
+
+    this.logger.log(`User created: ${userCreated.username}`);
+    return {
+      access_token: this.jwtService.sign(payload),
+    };
   }
 
   findAll(): Promise<User[]> {
