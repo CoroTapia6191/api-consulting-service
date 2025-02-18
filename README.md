@@ -32,8 +32,81 @@ Request:
 <img src ="https://firebasestorage.googleapis.com/v0/b/corox-radios.appspot.com/o/request.png?alt=media"/>
 
 Response:  
- 
+
 <img src ="https://firebasestorage.googleapis.com/v0/b/corox-radios.appspot.com/o/Response.png?alt=media"/>
+
+
+## Generate a Guest User
+To request a user you must consume the api utilities : https://api.corox.click
+
+You must consume the POST method “/users, to create your user, it will return the bearer token with which you can consume the POST service “/executes”. With the following body:
+```bash
+{
+    "email": "test@example.com",
+    "username": "myuser",
+    "password": "myPaswordExample"
+}
+```
+
+If you need another token with your credentials you can consume the POST method “/auth” with your username and password. With the following body:
+
+```bash
+{
+    "username": "usertest",
+    "password": "password"
+}
+```
+And finally you can make a query that returns a list of what you need to the POST method “/executes”. With the following body:
+```bash
+{
+  "numberItems": 6,
+  "nameOfCollection":"trendingList",
+  "detailOfItems": "Trending videos in youtube music in spanish",
+  "fieldsOfItem": ["title", "url", "duration"]
+}
+```
+
+A normal service response is
+```bash
+{
+    "statusCode": 200,
+    "message": "Request created successfully",
+    "data": {
+        "trendingList": [
+            {
+                "title": "Bésame Mucho - Andrea Bocelli &  Aitana",
+                "url": "https://www.youtube.com/watch?v=example1",
+                "duration": "3:45"
+            },
+            {
+                "title": "Despechá - Rosalía",
+                "url": "https://www.youtube.com/watch?v=example2",
+                "duration": "2:58"
+            },
+            {
+                "title": "TQG - Shakira & Karol G",
+                "url": "https://www.youtube.com/watch?v=example3",
+                "duration": "3:12"
+            },
+            {
+                "title": "Ella Baila Sola - Eslabon Armado & Peso Pluma",
+                "url": "https://www.youtube.com/watch?v=example4",
+                "duration": "2:41"
+            },
+            {
+                "title": "Monotonía - Shakira & Ozuna",
+                "url": "https://www.youtube.com/watch?v=example5",
+                "duration": "2:50"
+            },
+            {
+                "title": "La Bachata - Manuel Turizo",
+                "url": "https://www.youtube.com/watch?v=example6",
+                "duration": "3:27"
+            }
+        ]
+    }
+}
+```
 
 ## Acknowledgements
 
