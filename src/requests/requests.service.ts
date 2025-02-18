@@ -19,6 +19,7 @@ import { Request } from './entities/request.entity';
 import { User } from 'src/users/entities/user.entity';
 import { QueryType } from 'src/common/enum/query-type.enum';
 import { RequestUser } from './entities/request-user';
+import { Role } from 'src/users/entities/role.enum';
 
 @Injectable()
 export class RequestsService {
@@ -36,6 +37,11 @@ export class RequestsService {
     createRequestDto: CreateRequestDto,
     user: User,
   ): Promise<DefaultResponse> {
+    if (!(await this.validateNumberRequests(user))) {
+      throw new InternalServerErrorException(
+        `Max number of requests for user ${user.username}`,
+      );
+    }
     try {
       const iaQueryId: number = 1;
       const iaQuery: Query | null =
@@ -118,5 +124,29 @@ export class RequestsService {
     throw new InternalServerErrorException(
       'No se obtuvo respuesta de proveedores IA',
     );
+  }
+  async validateNumberRequests(user: User): Promise<boolean> {
+    if (user.roles?.includes(Role.ADMIN) || user.roles?.includes(Role.SUPER)) {
+      return true;
+    }
+    const userRequest = await this.requestUserRepository.findOneBy({
+      user: user.id,
+    });
+    if (!userRequest) return true;
+    if (
+      user.roles.includes(Role.USER) &&
+      userRequest.numberRequests < Number(process.env.MAX_REQUESTS_USER) &&
+      userRequest.numberRequests < 10000
+    ) {
+      return true;
+    }
+    if (
+      user.roles.includes(Role.GUEST) &&
+      userRequest.numberRequests < Number(process.env.MAX_REQUESTS_GUEST) &&
+      userRequest.numberRequests < 1000
+    ) {
+      return false;
+    }
+    return false;
   }
 }
