@@ -103,6 +103,14 @@ A normal service response is
 }
 ```
 
+##In progress
+
+We continue to improve the code and implement new features. In this first version the code is compatible with the Gemini AI engine, it is defined as an example but not implemented the interface to receive OpenAI response that will be considered in the future.
+<br>
+Any doubt, recommendation or PR is welcome!
+<br>
+You can also write to me at bryan.coronel@corox.click
+
 ## Acknowledgements
 
  - [NestJS](https://docs.nestjs.com/)
