@@ -32,7 +32,7 @@ The following section details the objects and how you can test this from a postm
 
 
 ## Generate a Guest User
-To request a user you must consume the api utilities : https://api.corox.click
+To request a user you must consume the api utilities : https://api.corox.click. As a guest user you can make around 200 requests.
 
 You must consume the POST method “/users, to create your user, it will return the bearer token with which you can consume the POST service “/executes”. With the following body:
 ```bash
